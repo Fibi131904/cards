@@ -17,7 +17,7 @@ currentTarget.checked)
 
   return (
     <div>
-      <Button onClick={()=>{}}/>
+      <Button onClick={()=>{}} >click</Button> 
       <Checkbox checked={checked}  onChange={testOnChange}/>
       <InputText onChangeText={setText} value={text}/>
     </div>

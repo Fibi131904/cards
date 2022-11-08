@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function EnteringANewPassword() {
+export function SetNewPassword() {
     return (
       <div >
        EnteringANewPassword
