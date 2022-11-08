@@ -12,8 +12,8 @@ export function Test() {
   
 const [checked, setChecked] = useState<boolean>(false)
 const [text, setText] = useState<string>('')
-const testOnChange = (e: ChangeEvent<HTMLInputElement>) => setChecked(e.
-currentTarget.checked)
+const testOnChange = (e: ChangeEvent<HTMLInputElement>) => 
+setChecked(e.currentTarget.checked)
 
   return (
     <div>

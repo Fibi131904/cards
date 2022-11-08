@@ -17,8 +17,7 @@ export const Pages = () => {
       <Route path={'/passwordRecovery'} element={<PasswordRecovery />} />
       <Route path={'/setNewPassword'} element={<SetNewPassword />} />
       <Route path={'/test'} element={<Test />} />
-      <Route
-        path="404"
+      <Route path="*"
         element={<h1 style={{ textAlign: 'center' }}>PAGE NO FOUND 404</h1>}
       />
     </Routes>

@@ -1,12 +1,12 @@
 import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, HashRouter } from 'react-router-dom'
 import { Pages } from './Routes'
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Pages />
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
