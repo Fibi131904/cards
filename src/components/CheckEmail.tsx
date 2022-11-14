@@ -1,9 +1,9 @@
 import React from 'react';
 
-export function PasswordRecovery() {
+export function CheckEmail() {
     return (
       <div >
-       PasswordRecovery
+       EnteringANewPassword
         
         
        </div>
