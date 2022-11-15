@@ -43,7 +43,7 @@ type FormikErrorType = {
         } 
     })
     return (<div>
-      <div>Register</div>
+      <div>Login</div>
       <form onSubmit={formik.handleSubmit}>
       <label htmlFor="email">Email Address</label>
       <input
@@ -72,7 +72,7 @@ type FormikErrorType = {
        name='rememberMe'/>
 
       <button type="submit">
-       Register
+       Login
       </button>
     </form>
     </div>

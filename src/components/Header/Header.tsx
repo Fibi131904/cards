@@ -6,6 +6,7 @@ export const Header=() =>{
     <nav>
                 <Link to="/">Profile</Link>  
                 <Link to="/login">Login</Link>  
+                <Link to="/register">Regisration</Link>  
                 <Link to="/Test">Test</Link>
                 <Link to="/Error">Error</Link>
             </nav>
