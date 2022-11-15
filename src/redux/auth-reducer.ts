@@ -1,15 +1,20 @@
+import { AxiosError } from 'axios';
 import React from 'react';
+import { Dispatch } from 'redux';
+import { authAPI } from '../api/authAPI';
+import { DataLoginType } from '../api/types';
+import { AppThunk } from './redux-store';
 
 
 
-export type ActionType = ReturnType<typeof setIsLoggedInAC>
+export type AuthActionType = ReturnType<typeof setIsLoggedInAC>
 export type InitialStateType = typeof initialState
-// export type AuthActionsType =  ActionType
+
 
 const initialState = {isLoggedIn: false}
 
 
-export const authReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
+export const authReducer = (state: InitialStateType = initialState, action: AuthActionType): InitialStateType => {
     switch (action.type) {
         case 'login/SET-IS-LOGGED-IN':
             return {...state, isLoggedIn: action.value}
@@ -20,4 +25,17 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 
 
 export const setIsLoggedInAC = (value:boolean) => ({ type: 'login/SET-IS-LOGGED-IN', value} as const)
+
+export const loginTC=(data:DataLoginType):AppThunk=>(dispatch:Dispatch)=> {
+    authAPI.login(data)
+    .then((res)=>{
+        dispatch(setIsLoggedInAC(true))
+    })
+    .catch((error:AxiosError)=>{
+console.log(error.message)
+    })
+    .finally(()=>{
+
+    })
+}
  

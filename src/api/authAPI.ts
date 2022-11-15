@@ -4,12 +4,12 @@ import { DataLoginType } from './types';
 
 export const authAPI = {
     authMe() {
-        return instance.post<{}, AxiosResponse<ResponseType>>('/auth/me')
+        return instance.post<{}, AxiosResponse<ResponseType>>(`auth/me`)
     },
     login(data: DataLoginType) {
-        return instance.post<DataLoginType, AxiosResponse<ResponseType>>(`/auth/login`, data)
+        return instance.post<DataLoginType, AxiosResponse<ResponseType>>(`auth/login`, data)
     },
     logout() {
-        return instance.delete<ResponseType>('/auth/me')
+        return instance.delete<ResponseType>('auth/me')
     }
 }
