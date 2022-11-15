@@ -1,7 +1,8 @@
 import React from 'react'
 import { HashRouter } from 'react-router-dom'
-import { Pages } from '../api/app/Routes'
+import { Pages } from './Routes'
 import { Header } from '../components/Header/Header'
+
 
 
 const App = () => {
