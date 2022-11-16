@@ -38,4 +38,16 @@ console.log(error.message)
 
     })
 }
+export const logoutTC=(data:DataLoginType):AppThunk=>(dispatch:Dispatch)=> {
+    authAPI.login(data)
+    .then((res)=>{
+        dispatch(setIsLoggedInAC(false))
+    })
+    .catch((error:AxiosError)=>{
+console.log(error.message)
+    })
+    .finally(()=>{
+
+    })
+}
  

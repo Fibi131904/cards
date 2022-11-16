@@ -3,7 +3,7 @@ import { Error404 } from "../common/error404/Error404"
 import { CheckEmail } from "../components/CheckEmail"
 import { Login } from "../components/Login/Login"
 import { Profile } from "../components/Profile"
-import { Registration } from "../components/Registration"
+import { Registration } from "../components/Registration/Registration"
 import { Test } from "../components/Test"
 
 

@@ -42,9 +42,12 @@ type FormikErrorType = {
           dispatch(loginTC(values))
         } 
     })
-    return (<div>
-      <div>Login</div>
-      <form onSubmit={formik.handleSubmit}>
+    return (
+    <div className={s.loginBlock}>
+      
+      <div className={s.container}>
+      <h2>Login</h2>
+      <form onSubmit={formik.handleSubmit} className={s.formLogin}>
       <label htmlFor="email">Email Address</label>
       <input
        onChange={formik.handleChange}
@@ -75,6 +78,7 @@ type FormikErrorType = {
        Login
       </button>
     </form>
+    </div>
     </div>
     )
   }

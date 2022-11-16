@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { useAppSelector, useTypedDispatch } from '../redux/redux-store';
-import { registerTC } from '../redux/register-reducer';
+import { useAppSelector, useTypedDispatch } from '../../redux/redux-store';
+import { registerTC } from '../../redux/register-reducer';
 import { useFormik} from 'formik';
+import s from './Registration.module.css'
 
 type FormikErrorType = {
   email?: string
@@ -87,9 +87,11 @@ const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => 
 if (isRegistered) {
     return <Navigate to={'/login'}/>
 }
-  return (<div>
-    <div>Register</div>
-    <form onSubmit={formik.handleSubmit}>
+  return (
+  <div className={s.registerBlock}> 
+  <div className={s.container}>
+    <h2>Register</h2>
+    <form onSubmit={formik.handleSubmit}  className={s.formReg}>
     <label htmlFor="email">Email Address</label>
     <input
      onChange={formik.handleChange}
@@ -122,6 +124,7 @@ if (isRegistered) {
      Register
     </button>
   </form>
+  </div>
   </div>
   )
 }

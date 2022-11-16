@@ -1,14 +1,15 @@
 import { Link } from "react-router-dom"
+import s from './Header.module.css'
 
 export const Header=() =>{
   return (
-    <div >
+    <div className={s.header}>
     <nav>
-                <Link to="/">Profile</Link>  
-                <Link to="/login">Login</Link>  
-                <Link to="/register">Regisration</Link>  
-                <Link to="/Test">Test</Link>
-                <Link to="/Error">Error</Link>
+                <Link to="/" className={s.item}>Profile</Link>  
+                <Link to="/login" className={s.item}>Login</Link>  
+                <Link to="/register" className={s.item}>Regisration</Link>  
+                <Link to="/Test" className={s.item}>Test</Link>
+                <Link to="/Error" className={s.item}>Error</Link>
             </nav>
       
       

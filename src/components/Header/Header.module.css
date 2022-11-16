@@ -1,0 +1,23 @@
+.header {
+height: 40px;
+border: 1px solid green;
+display: flex;
+flex-direction: row;
+align-items: center;
+background-color: blue;
+}
+
+.item {
+ color: white;
+ margin-left: 30px; 
+ text-decoration: none;
+}
+
+.item:hover {
+  text-decoration: none;
+  color: gray
+}
+
+.item:active {
+  color: grey;
+}
