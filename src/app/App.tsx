@@ -5,11 +5,12 @@ import { Header } from '../components/Header/Header'
 
 
 
+
 const App = () => {
   return (
-    <HashRouter>
-      <Header/>
-      <Pages />
+    <HashRouter>                
+    <Header/>
+    <Pages />
     </HashRouter>
   )
 }

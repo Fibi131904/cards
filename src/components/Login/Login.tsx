@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useFormik } from 'formik'
-import s from './Login.module.css'
+import s from '../../styles/Authorization.module.css'
 import { loginTC } from '../../redux/auth-reducer'
 import { AppStateType, useTypedDispatch } from '../../redux/redux-store'
 import {
@@ -11,9 +11,8 @@ import {
   IconButton,
   Input, 
   InputAdornment, 
-  InputLabel,
-  TextField,
-} from '@material-ui/core'
+  InputLabel
+ } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import { Link, Navigate } from 'react-router-dom'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
@@ -56,6 +55,7 @@ export const Login = () => {
     },
     onSubmit: (values) => {
       dispatch(loginTC(values))
+      formik.resetForm();
     },
   })
   const [valuesPassword, setValuesPassword] = React.useState<StatePassword>({
@@ -85,17 +85,20 @@ const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => 
         <FormControl>
 
        
-
-          <TextField
-            label="Email"
-            margin="normal"
-            {...formik.getFieldProps('email')}
-          />
-
+        <InputLabel color="primary">Email</InputLabel>
+                    <Input
+                        id="email"
+                        type="email"
+                        placeholder={'Email'}
+                        className={s.input}
+                        color="primary"
+                        {...formik.getFieldProps('email')}
+                    />
+ </FormControl>
           {formik.touched.email && formik.errors.email ? (
             <div className={s.error}>{formik.errors.email}</div>
           ) : null}
-
+ <FormControl>
 <InputLabel color="primary">Password</InputLabel>
                     <Input
                         id="password"
@@ -116,6 +119,7 @@ const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => 
                             </InputAdornment>
                         }
                     />
+                      </FormControl>
           {formik.touched.password && formik.errors.password ? (
             <div className={s.error}>{formik.errors.password}</div>
           ) : null}
@@ -134,7 +138,7 @@ const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => 
           <Button type={'submit'} variant={'contained'} color={'primary'}>
             Login
           </Button>
-          </FormControl>
+        
           <div className={s.linkText}>Alredy have an account?</div>
           <Link to="/register" >Regisration</Link> 
       </form>

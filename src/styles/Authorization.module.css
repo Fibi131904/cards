@@ -1,0 +1,29 @@
+h2 {
+  text-align: center;
+}
+
+.container {
+
+  position: absolute;
+  width: 413px;
+  height: 552px;
+  left: 434px;
+  top: 120px;
+}
+.form{
+  max-width: 330px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background: #FFF;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.error {
+  color: red;
+}
+.linkText {
+  color:grey;
+}

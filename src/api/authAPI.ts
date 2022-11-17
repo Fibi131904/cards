@@ -1,4 +1,3 @@
-
 import { AxiosResponse } from 'axios';
 import {instance} from './instance';
 import { DataLoginType } from './types';
