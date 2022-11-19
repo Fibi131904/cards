@@ -139,7 +139,7 @@ const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => 
             Login
           </Button>
         
-          <div className={s.linkText}>Alredy have an account?</div>
+          <div className={s.text}>Alredy have an account?</div>
           <Link to="/register" >Regisration</Link> 
       </form>
     </div>

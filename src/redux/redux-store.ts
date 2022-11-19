@@ -4,6 +4,7 @@ import { legacy_createStore} from 'redux'
 import thunk, { ThunkAction, ThunkDispatch} from "redux-thunk";
 import { appReducer } from "./app-reducer";
 import {  AuthActionType, authReducer } from "./auth-reducer";
+import { recoverPasswordReducer } from "./recoverPassword-reducer";
 import { registerReducer } from "./register-reducer";
 
 
@@ -13,6 +14,7 @@ export const rootReducer= combineReducers({
   app: appReducer,
   auth: authReducer,
   register:registerReducer,
+  recoverPassword: recoverPasswordReducer,
   // profile: profileReducer
 })
 

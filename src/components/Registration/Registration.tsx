@@ -179,7 +179,7 @@ export const Registration = () => {
 <Button type={'submit'} variant={'contained'} color={'primary'}>
             Register
           </Button>
-          Already have an account?
+          <div className={s.text}>Already have an account?</div>
                 <Link to={'/login'}>Sign In</Link>
       </form>
     </div>

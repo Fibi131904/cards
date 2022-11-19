@@ -28,3 +28,4 @@ export type RegDataType = {
   email: string
   password: string
 }
+
