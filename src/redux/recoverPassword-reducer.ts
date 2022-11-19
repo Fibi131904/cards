@@ -1,5 +1,6 @@
 import { AxiosError } from "axios"
 import { recoverPaswordAPI } from "../api/recoverPasswordAPI"
+import { errorUtils } from "../utils/error-utils"
 import { AppThunk } from "./redux-store"
 
 type InitialStateType={
@@ -30,9 +31,9 @@ return(dispatch)=>{
     debugger
     dispatch(recoverAC(res.data.info))
   })
-  .catch((error:AxiosError)=>{
-
-  })
+  .catch((error: AxiosError<{ error: string }>)=>{
+    errorUtils(error, dispatch)
+})
   .finally(()=>{
 
   })

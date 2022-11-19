@@ -1,6 +1,7 @@
 import { AxiosError } from "axios"
 import { registerAPI } from "../api/registerAPI"
 import { RegDataType } from "../api/types"
+import { errorUtils } from "../utils/error-utils"
 import { AppThunk } from "./redux-store"
 
 
@@ -18,6 +19,7 @@ case 'register/SIGN_UP':
     return state
   }
 }
+
 export type ActionType= ReturnType<typeof registerAC>
 
 export const registerAC=(isRegistered:boolean)=>({type:'register/SIGN_UP',isRegistered}as const)
@@ -30,9 +32,9 @@ export const registerTC = (regData: RegDataType): AppThunk => {
           .then(() => {
               dispatch(registerAC(true))
           })
-          .catch((error: AxiosError<{ error: string }>) => {
-              
-          })
+          .catch((error: AxiosError<{ error: string }>)=>{
+            errorUtils(error, dispatch)    
+        })
           .finally(() => {
               
           })

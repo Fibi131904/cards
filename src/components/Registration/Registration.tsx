@@ -62,7 +62,7 @@ export const Registration = () => {
     },
     onSubmit: (values) => {
       dispatch(registerTC(values))
-      formik.resetForm();
+      formik.resetForm()
     },
   })
   const [valuesPassword, setValuesPassword] = React.useState<StatePassword>({
@@ -146,41 +146,38 @@ export const Registration = () => {
         {formik.touched.password && formik.errors.password ? (
           <div>{formik.errors.password}</div>
         ) : null}
-        <FormControl>
-          <InputLabel color="primary">Confirm Password</InputLabel>
-          <Input
-            id="confirmPassword"
-            type={valuesPassword.showPassword ? 'text' : 'confirmPassword'}
-            placeholder={'confirmPassword'}
-            className={s.input}
-            color="primary"
-            {...formik.getFieldProps('confirmPassword')}
-            autoComplete="on"
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}>
-                  {valuesPassword.showPassword ? (
-                    <VisibilityOff />
-                  ) : (
-                    <Visibility />
-                  )}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
+          <FormControl>
+                    <InputLabel color={'primary'}>Confirm password</InputLabel>
+                    <Input
+                        id="confirmPassword"
+                        type={valuesConfirmPassword.showConfirmPassword ? 'text' : 'password'}
+                        placeholder={'Confirm password'}
+                        className={s.input}
+                        color={'primary'}
+                        {...formik.getFieldProps('confirmPassword')}
+                        autoComplete="on"
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    onClick={handleClickShowConfirmPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                >
+                                    {valuesConfirmPassword.showConfirmPassword ? <VisibilityOff/> : <Visibility/>}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                    />
+                </FormControl>
 
         {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
           <div>{formik.errors.confirmPassword}</div>
         ) : null}
 
-<Button type={'submit'} variant={'contained'} color={'primary'}>
-            Register
-          </Button>
-          <div className={s.text}>Already have an account?</div>
-                <Link to={'/login'}>Sign In</Link>
+        <Button type={'submit'} variant={'contained'} color={'primary'}>
+          Register
+        </Button>
+        <div className={s.text}>Already have an account?</div>
+        <Link to={'/login'}>Sign In</Link>
       </form>
     </div>
   )
