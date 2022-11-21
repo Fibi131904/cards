@@ -5,7 +5,7 @@ import { Login } from "../components/Login/Login"
 import { Profile } from "../components/Profile"
 import { RecoverPassword } from "../components/RecoverPassword"
 import { Registration } from "../components/Registration/Registration"
-import { Test } from "../components/Test"
+
 
 
 
@@ -17,8 +17,7 @@ export const Pages = () => {
           <Route path={'/login'} element={<Login/>}/>
           <Route path={'/register'} element={<Registration/>}/>
           <Route path={'/profile'} element={<Profile/>}/>
-          <Route path={'/check-email'} element={<CheckEmail/>}/>
-          <Route path={'/test'} element={<Test/>}/>
+          <Route path={'/checkEmail'} element={<CheckEmail/>}/>
           <Route path={'/recoverPassword'} element={<RecoverPassword/>}/>
           <Route path={'/404'} element={<Error404/>}/>
           <Route path={'*'} element={<Navigate to={'404'}/>}/>

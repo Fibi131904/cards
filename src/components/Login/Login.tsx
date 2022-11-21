@@ -9,14 +9,13 @@ import {
   FormControl,
   FormControlLabel,
   IconButton,
-  Input, 
-  InputAdornment, 
-  InputLabel
- } from '@material-ui/core'
+  Input,
+  InputAdornment,
+  InputLabel,
+} from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import { Link, Navigate } from 'react-router-dom'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
-
 
 type FormikErrorType = {
   email?: string
@@ -25,12 +24,14 @@ type FormikErrorType = {
 }
 
 type StatePassword = {
-  password: string;
-  showPassword: boolean;
+  password: string
+  showPassword: boolean
 }
 
 export const Login = () => {
-  const isLoggedIn= useSelector<AppStateType, boolean>((state)=>state.auth.isLoggedIn)
+  const isLoggedIn = useSelector<AppStateType, boolean>(
+    (state) => state.auth.isLoggedIn
+  )
   const dispatch = useTypedDispatch()
   const formik = useFormik({
     initialValues: {
@@ -55,92 +56,88 @@ export const Login = () => {
     },
     onSubmit: (values) => {
       dispatch(loginTC(values))
-      formik.resetForm();
+      formik.resetForm()
     },
   })
   const [valuesPassword, setValuesPassword] = React.useState<StatePassword>({
     password: '',
     showPassword: false,
-});
+  })
 
-const handleClickShowPassword = useCallback(() => {
+  const handleClickShowPassword = useCallback(() => {
     setValuesPassword({
-        ...valuesPassword,
-        showPassword: !valuesPassword.showPassword,
-    });
-}, [valuesPassword]);
+      ...valuesPassword,
+      showPassword: !valuesPassword.showPassword,
+    })
+  }, [valuesPassword])
 
-const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-};
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault()
+  }
 
-  if(isLoggedIn){
-    return <Navigate to={'/profile'}/>
-}
+  if (isLoggedIn) {
+    return <Navigate to={'/profile'} />
+  }
   return (
     <div className={s.container}>
-      <h2>Login</h2>
-
       <form onSubmit={formik.handleSubmit} className={s.form}>
+        <h3>Login</h3>
         <FormControl>
-
-       
-        <InputLabel color="primary">Email</InputLabel>
-                    <Input
-                        id="email"
-                        type="email"
-                        placeholder={'Email'}
-                        className={s.input}
-                        color="primary"
-                        {...formik.getFieldProps('email')}
-                    />
- </FormControl>
-          {formik.touched.email && formik.errors.email ? (
-            <div className={s.error}>{formik.errors.email}</div>
-          ) : null}
- <FormControl>
-<InputLabel color="primary">Password</InputLabel>
-                    <Input
-                        id="password"
-                        type={valuesPassword.showPassword ? 'text' : 'password'}
-                        placeholder={'Password'}
-                        className={s.input}
-                        color="primary"
-                        {...formik.getFieldProps('password')}
-                        autoComplete="on"
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                >
-                                    {valuesPassword.showPassword ? <VisibilityOff/> : <Visibility/>}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                    />
-                      </FormControl>
-          {formik.touched.password && formik.errors.password ? (
-            <div className={s.error}>{formik.errors.password}</div>
-          ) : null}
-
-          <FormControlLabel
-            label={'Remember me'}
-            checked={formik.values.rememberMe}
-            control={
-              <Checkbox
-                color="primary"
-                {...formik.getFieldProps('rememberMe')}
-              />
+          <InputLabel color="primary">Email</InputLabel>
+          <Input
+            id="email"
+            type="email"
+            placeholder={'Email'}
+            className={s.input}
+            color="primary"
+            {...formik.getFieldProps('email')}
+          />
+        </FormControl>
+        {formik.touched.email && formik.errors.email ? (
+          <div className={s.error}>{formik.errors.email}</div>
+        ) : null}
+        <FormControl>
+          <InputLabel color="primary">Password</InputLabel>
+          <Input
+            id="password"
+            type={valuesPassword.showPassword ? 'text' : 'password'}
+            placeholder={'Password'}
+            className={s.input}
+            color="primary"
+            {...formik.getFieldProps('password')}
+            autoComplete="on"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}>
+                  {valuesPassword.showPassword ? (
+                    <VisibilityOff />
+                  ) : (
+                    <Visibility />
+                  )}
+                </IconButton>
+              </InputAdornment>
             }
           />
-
-          <Button type={'submit'} variant={'contained'} color={'primary'}>
-            Login
-          </Button>
-        
-          <div className={s.text}>Alredy have an account?</div>
-          <Link to="/register" >Regisration</Link> 
+        </FormControl>
+        {formik.touched.password && formik.errors.password ? (
+          <div className={s.error}>{formik.errors.password}</div>
+        ) : null}
+        <FormControlLabel
+          label={'Remember me'}
+          checked={formik.values.rememberMe}
+          control={
+            <Checkbox color="primary" {...formik.getFieldProps('rememberMe')} />
+          }
+        />
+        <Button type={'submit'} variant={'contained'} color={'primary'}>
+          Login
+        </Button>
+        <div className={s.text}>Alredy have an account?</div>
+        <Link to="/register">Regisration</Link>
       </form>
     </div>
   )

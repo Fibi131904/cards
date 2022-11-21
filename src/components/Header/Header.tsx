@@ -15,8 +15,8 @@ export const Header = () => {
         <Link to="/register" className={s.item}>
           Regisration
         </Link>
-        <Link to="/Test" className={s.item}>
-          Test
+        <Link to="/checkEmail" className={s.item}>
+          CheckEmail
         </Link>
         <Link to="/Error" className={s.item}>
           Error

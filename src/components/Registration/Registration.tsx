@@ -101,8 +101,8 @@ export const Registration = () => {
   }
   return (
     <div className={s.container}>
-      <h2>Register</h2>
-      <form onSubmit={formik.handleSubmit} className={s.form}>
+            <form onSubmit={formik.handleSubmit} className={s.form}>
+            <h3>Register</h3>
         <FormControl>
           <InputLabel color="primary">Email</InputLabel>
           <Input
