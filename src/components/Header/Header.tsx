@@ -24,6 +24,9 @@ export const Header = () => {
         <Link to="/RecoverPassword" className={s.item}>
         RecoverPassword
         </Link>
+        <Link to="/CreateNewPassword" className={s.item}>
+        CreateNewPassword
+        </Link>
       </nav>
      
     </div>

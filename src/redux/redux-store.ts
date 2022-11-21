@@ -1,3 +1,4 @@
+import { setNewPasswordReducer } from './setNewPassword-reducer';
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { AnyAction, applyMiddleware, combineReducers } from "redux";
 import { legacy_createStore} from 'redux'
@@ -15,6 +16,7 @@ export const rootReducer= combineReducers({
   auth: authReducer,
   register:registerReducer,
   recoverPassword: recoverPasswordReducer,
+  setNewPassword: setNewPasswordReducer,
   // profile: profileReducer
 })
 
