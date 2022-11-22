@@ -2,6 +2,7 @@ import { AxiosError } from "axios"
 import { registerAPI } from "../api/registerAPI"
 import { RegDataType } from "../api/types"
 import { errorUtils } from "../utils/error-utils"
+import { setAppStatusAC } from "./app-reducer"
 import { AppThunk } from "./redux-store"
 
 
@@ -27,7 +28,7 @@ export const registerAC=(isRegistered:boolean)=>({type:'register/SIGN_UP',isRegi
 // thunks
 export const registerTC = (regData: RegDataType): AppThunk => {
   return (dispatch) => {
-     
+    dispatch(setAppStatusAC('loading'))
       registerAPI.register(regData)
           .then(() => {
               dispatch(registerAC(true))
@@ -36,7 +37,7 @@ export const registerTC = (regData: RegDataType): AppThunk => {
             errorUtils(error, dispatch)    
         })
           .finally(() => {
-              
+            dispatch(setAppStatusAC('succeeded'))    
           })
   }
 }

@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, { AxiosResponse } from "axios"
 
 
 const instance = axios.create({
@@ -9,8 +9,12 @@ const instance = axios.create({
 
 export const recoverPaswordAPI = {
   sendEmail:(email: string, message: string)=> {
-    return instance.post('/auth/forgot', { email, message })
+    return instance.post<{ email: string, message: string }, AxiosResponse<ResponseType>>('/auth/forgot', { email, message })
   }
 }
 
+type ResponseType = {
+  info: string
+  error: string
+}
 

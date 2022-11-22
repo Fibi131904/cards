@@ -18,7 +18,7 @@ type StatePassword = {
   showPassword: boolean;
 }
 
-export const CreateNewPassword = () => {
+export const SetNewPassword = React.memo( () => {
   const dispatch = useTypedDispatch()
     const isPasswordChanged = useAppSelector(state => state.setNewPassword.isPasswordChanged)
     const {token} = useParams()
@@ -69,7 +69,7 @@ export const CreateNewPassword = () => {
   return (
     <div className={s.container}>
     <form onSubmit={formik.handleSubmit} className={s.form}>
-      <h3>CreateNewPassword</h3>
+      <h3>Create New Password</h3>
       <FormControl>
           <InputLabel color="primary">Password</InputLabel>
           <Input
@@ -110,4 +110,5 @@ export const CreateNewPassword = () => {
    
   )
 }
+)
   

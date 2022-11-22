@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import { authAPI } from '../api/authAPI';
 import { DataLoginType } from '../api/types';
 import { errorUtils } from '../utils/error-utils';
+import { setAppStatusAC } from './app-reducer';
 import { AppThunk } from './redux-store';
 
 
@@ -16,8 +17,7 @@ const initialState = { isLoggedIn: false }
 
 export const authReducer = (state: InitialStateType = initialState, action: AuthActionType): InitialStateType =>
 {
-    switch (action.type)
-    {
+    switch (action.type) {
         case 'login/SET-IS-LOGGED-IN':
             return { ...state, isLoggedIn: action.value }
         default:
@@ -28,8 +28,8 @@ export const authReducer = (state: InitialStateType = initialState, action: Auth
 
 export const setIsLoggedInAC = (value: boolean) => ({ type: 'login/SET-IS-LOGGED-IN', value } as const)
 
-export const loginTC = (data: DataLoginType): AppThunk => (dispatch: Dispatch) =>
-{
+export const loginTC = (data: DataLoginType): AppThunk => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     authAPI.login(data)
         .then((res) =>
         {
@@ -42,19 +42,18 @@ export const loginTC = (data: DataLoginType): AppThunk => (dispatch: Dispatch) =
         })
         .finally(() =>
         {
-
+            dispatch(setAppStatusAC('succeeded'))
         })
 }
 export const logoutTC = (data: DataLoginType): AppThunk => (dispatch: Dispatch) =>
 {
-    authAPI.login(data)
+    authAPI.logout()
         .then((res) =>
         {
             dispatch(setIsLoggedInAC(false))
         })
-        .catch((error: AxiosError) =>
-        {
-            console.log(error.message)
+        .catch((error: AxiosError<{ error: string }>) => {
+            errorUtils(error, dispatch)
         })
         .finally(() =>
         {

@@ -1,6 +1,7 @@
 import { AxiosError } from "axios"
 import { createNewPasswopdAPI, NewPasswordDataType } from "../api/createNewPasswopdAPI"
 import { errorUtils } from "../utils/error-utils"
+import { setAppStatusAC } from "./app-reducer"
 import { AppThunk } from "./redux-store"
 
 
@@ -33,7 +34,7 @@ export const setPasswordChangedAC=(isPasswordChanged:boolean)=>({type:'setNewPas
 
 export const setInfoTC = (newPasswordData: NewPasswordDataType): AppThunk => {
   return (dispatch) => {
-     
+    dispatch(setAppStatusAC('loading'))
     createNewPasswopdAPI.sendNewPasswopd(newPasswordData)
           .then((res) => {
               dispatch(setInfoAC(res.data.info))
@@ -42,7 +43,7 @@ export const setInfoTC = (newPasswordData: NewPasswordDataType): AppThunk => {
             errorUtils(error, dispatch)    
         })
           .finally(() => {
-              
+            dispatch(setAppStatusAC('succeeded')) 
           })
   }
 }

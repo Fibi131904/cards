@@ -16,16 +16,16 @@ export const Header = () => {
           Regisration
         </Link>
         <Link to="/checkEmail" className={s.item}>
-          CheckEmail
+          Check Email
         </Link>
-        <Link to="/Error" className={s.item}>
+        <Link to="/error" className={s.item}>
           Error
         </Link>
-        <Link to="/RecoverPassword" className={s.item}>
-        RecoverPassword
+        <Link to="/recoverPassword" className={s.item}>
+        Recover Password
         </Link>
-        <Link to="/CreateNewPassword" className={s.item}>
-        CreateNewPassword
+        <Link to='/checkEmail' className={s.item}>
+        Set New Password
         </Link>
       </nav>
      
