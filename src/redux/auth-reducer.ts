@@ -28,7 +28,7 @@ export const authReducer = (state: InitialStateType = initialState, action: Auth
 
 export const setIsLoggedInAC = (value: boolean) => ({ type: 'login/SET-IS-LOGGED-IN', value } as const)
 
-export const loginTC = (data: DataLoginType): AppThunk => (dispatch: Dispatch) => {
+export const loginTC = (data: DataLoginType): AppThunk  => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.login(data)
         .then((res) =>
@@ -45,19 +45,23 @@ export const loginTC = (data: DataLoginType): AppThunk => (dispatch: Dispatch) =
             dispatch(setAppStatusAC('succeeded'))
         })
 }
-export const logoutTC = (data: DataLoginType): AppThunk => (dispatch: Dispatch) =>
-{
-    authAPI.logout()
-        .then((res) =>
-        {
-            dispatch(setIsLoggedInAC(false))
-        })
-        .catch((error: AxiosError<{ error: string }>) => {
-            errorUtils(error, dispatch)
-        })
-        .finally(() =>
-        {
 
-        })
+export const logoutTC = (): AppThunk => async (dispatch) =>
+{
+    try
+    {
+        let res = await authAPI.logout()
+        dispatch(setAppStatusAC('loading'))
+        dispatch(setIsLoggedInAC(false))
+    }
+    catch (error: any | AxiosError<{ error: string; }, any>)
+    {
+        errorUtils(error, dispatch)
+    }
+    finally
+    {
+        dispatch(setAppStatusAC('succeeded'))
+    }
+
 }
  

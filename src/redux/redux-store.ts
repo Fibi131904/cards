@@ -7,6 +7,7 @@ import { appReducer } from "./app-reducer";
 import {  AuthActionType, authReducer } from "./auth-reducer";
 import { recoverPasswordReducer } from "./recoverPassword-reducer";
 import { registerReducer } from "./register-reducer";
+import { profileReducer } from './profile-reducer';
 
 
 export type AppStateType = ReturnType<typeof rootReducer>
@@ -17,7 +18,7 @@ export const rootReducer= combineReducers({
   register:registerReducer,
   recoverPassword: recoverPasswordReducer,
   setNewPassword: setNewPasswordReducer,
-  // profile: profileReducer
+  profile: profileReducer
 })
 
 export const store= legacy_createStore(rootReducer , applyMiddleware(thunk))

@@ -8,7 +8,7 @@ export const CheckEmail = () => {
   const {email} = useParams()
 
   return (
-    <div className={s.container}>
+    <div className={s.wrapper}>
       
       <div className={s.form}>
       <h3>Check Email</h3>

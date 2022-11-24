@@ -24,7 +24,7 @@ export const Header = () => {
         <Link to="/recoverPassword" className={s.item}>
         Recover Password
         </Link>
-        <Link to='/checkEmail' className={s.item}>
+        <Link to='/setNewPassword' className={s.item}>
         Set New Password
         </Link>
       </nav>

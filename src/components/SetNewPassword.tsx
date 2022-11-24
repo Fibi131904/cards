@@ -67,7 +67,7 @@ export const SetNewPassword = React.memo( () => {
     }
 
   return (
-    <div className={s.container}>
+    <div className={s.wrapper}>
     <form onSubmit={formik.handleSubmit} className={s.form}>
       <h3>Create New Password</h3>
       <FormControl>

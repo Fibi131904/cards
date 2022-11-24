@@ -100,7 +100,7 @@ export const Registration = () => {
     return <Navigate to={'/login'} />
   }
   return (
-    <div className={s.container}>
+    <div className={s.wrapper}>
             <form onSubmit={formik.handleSubmit} className={s.form}>
             <h3>Register</h3>
         <FormControl>

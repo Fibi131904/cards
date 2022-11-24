@@ -1,9 +1,12 @@
+import { AxiosError } from "axios"
 import { authAPI } from "../api/authAPI"
+import { errorUtils } from "../utils/error-utils"
 import { setIsLoggedInAC } from "./auth-reducer"
 import { AppThunk } from "./redux-store"
 
+
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-type InitialStateType = typeof initialState
+
 const initialState= {
   status:'idle' as RequestStatusType,
   error: null as null | string,
@@ -27,7 +30,6 @@ case 'APP/SET_IS_INITIALIZED':
     return state
   }
 }
-export type ActionTypes= ReturnType<typeof setAppStatusAC> | ReturnType<typeof setAppErrorAC> | ReturnType<typeof setInitializedAC>
 
 export const setAppStatusAC=(status: RequestStatusType)=>({type:'APP/SET_STATUS',status}as const)
 export const setAppErrorAC=(error: null | string)=>({
@@ -35,17 +37,24 @@ export const setAppErrorAC=(error: null | string)=>({
 }as const)
 export const setInitializedAC = (value: boolean) => ({type: 'APP/SET_IS_INITIALIZED', value} as const)
 
-export const authMeTC = (): AppThunk => (dispatch) =>
+export const authMeTC = (): AppThunk  => async (dispatch) =>
 {
-  dispatch(setAppStatusAC('loading'))
-  authAPI.authMe()
-    .then((res) =>
-    {
-      dispatch(setIsLoggedInAC(true))
-    })
-    .finally(() =>
-    {
-      dispatch(setInitializedAC(true))
-      dispatch(setAppStatusAC('succeeded'))
-    })
+  try
+  {
+    let res = await authAPI.authMe()
+    dispatch(setAppStatusAC('loading'))
+    dispatch(setIsLoggedInAC(true))
+  }
+  catch (error: any | AxiosError<{ error: string; }, any>)
+  {
+    errorUtils(error, dispatch)
+  }
+  finally
+  {
+    dispatch(setInitializedAC(true))
+    dispatch(setAppStatusAC('succeeded'))
+  }
 }
+
+type InitialStateType = typeof initialState
+export type ActionTypes= ReturnType<typeof setAppStatusAC> | ReturnType<typeof setAppErrorAC> | ReturnType<typeof setInitializedAC>

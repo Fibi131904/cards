@@ -17,12 +17,12 @@ export const Pages = () => {
           <Route path={'/'} element={<Navigate to={'/profile'}/>}/>
           <Route path={'/login'} element={<Login/>}/>
           <Route path={'/register'} element={<Registration/>}/>
-          <Route path={'/profile'} element={<Profile/>}/>
+          <Route path={'/profile'} element={<Profile/>}/>          
           <Route path={'/recoverPassword'} element={<RecoverPassword/>}/>
+          <Route path={'/checkEmail/'} element={<CheckEmail/>}/>     
           <Route path={'/checkEmail/:email'} element={<CheckEmail/>}/>     
-          <Route path={'/setNewPassword'}/>
-                <Route index element={<SetNewPassword/>}/>
-                <Route path={':token'} element={<SetNewPassword/>}/>
+          <Route path={'/setNewPassword'}element={<SetNewPassword/>}/>
+          <Route path={'/setNewPassword/:token'} element={<SetNewPassword/>}/>
           <Route path={'/404'} element={<Error404/>}/>
           <Route path={'*'} element={<Navigate to={'404'}/>}/>
       </Routes>

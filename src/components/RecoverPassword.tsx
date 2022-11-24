@@ -28,7 +28,7 @@ export const RecoverPassword = React.memo(() => {
   
  
   return (
-    <div className={s.container}>
+    <div className={s.wrapper}>
       <div className={s.form}>
       <h3>Forgot your password?</h3>
       <TextField
