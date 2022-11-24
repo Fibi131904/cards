@@ -41,12 +41,14 @@ export const setInitializedAC = (value: boolean) => ({ type: 'APP/SET_IS_INITIAL
 
 export const authMeTC = (): AppThunk => async (dispatch) =>
 {
+  dispatch(setAppStatusAC('loading'))
   try
   {
-    let res = await authAPI.authMe()
-    dispatch(setAppStatusAC('loading'))
+    const res = await authAPI.authMe() 
+    if(res.data){ 
     dispatch(setIsLoggedInAC(true))
   }
+}
   catch (error: any | AxiosError<{ error: string; }, any>)
   {
     errorUtils(error, dispatch)

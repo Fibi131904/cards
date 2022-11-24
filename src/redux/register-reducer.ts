@@ -7,37 +7,43 @@ import { AppThunk } from "./redux-store"
 
 
 type InitialStateType = typeof initialState
-const initialState= {
-   isRegistered:false
+const initialState = {
+  isRegistered: false
 }
-export const registerReducer=(state:InitialStateType = initialState, action: ActionType ):InitialStateType=>{
-  switch(action.type){
-case 'register/SIGN_UP':
-  return {
-    ...state, isRegistered: action.isRegistered
-  }
-  default:
-    return state
+export const registerReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType =>
+{
+  switch (action.type)
+  {
+    case 'register/SIGN_UP':
+      return {
+        ...state, isRegistered: action.isRegistered
+      }
+    default:
+      return state
   }
 }
 
-export type ActionType= ReturnType<typeof registerAC>
+export type ActionType = ReturnType<typeof registerAC>
 
-export const registerAC=(isRegistered:boolean)=>({type:'register/SIGN_UP',isRegistered}as const)
+export const registerAC = (isRegistered: boolean) => ({ type: 'register/SIGN_UP', isRegistered } as const)
 
-// thunks
-export const registerTC = (regData: RegDataType): AppThunk => {
-  return (dispatch) => {
-    dispatch(setAppStatusAC('loading'))
-      registerAPI.register(regData)
-          .then(() => {
-              dispatch(registerAC(true))
-          })
-          .catch((error: AxiosError<{ error: string }>)=>{
-            errorUtils(error, dispatch)    
-        })
-          .finally(() => {
-            dispatch(setAppStatusAC('succeeded'))    
-          })
+export const registerTC = (regData: RegDataType): AppThunk => async (dispatch) =>
+{
+  dispatch(setAppStatusAC('loading'))
+  try
+  {
+    const res = await registerAPI.register(regData)
+    if (res.data)
+    {
+      dispatch(registerAC(true))
+    }
+  }
+  catch (error: any | AxiosError<{ error: string; }, any>)
+  {
+    errorUtils(error, dispatch)
+  }
+  finally
+  {
+    dispatch(setAppStatusAC('succeeded'))
   }
 }

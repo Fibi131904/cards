@@ -28,24 +28,22 @@ export const recoverPasswordReducer = (state: InitialStateType = initialState, a
 
 export const recoverAC = (info: string) => ({ type: 'recover/CONFIRM_STATUS', info } as const)
 
-export const recoverTC = (email: string, message: string): AppThunk =>
+export const recoverTC = (email: string, message: string): AppThunk => async (dispatch) =>
 {
-  return (dispatch) =>
+  dispatch(setAppStatusAC('loading'))
+  try
   {
-    dispatch(setAppStatusAC('loading'))
-    recoverPaswordAPI.sendEmail(email, message)
-      .then((res) =>
-      {
-
-        dispatch(recoverAC(res.data.info))
-      })
-      .catch((error: AxiosError<{ error: string }>) =>
-      {
-        errorUtils(error, dispatch)
-      })
-      .finally(() =>
-      {
-        dispatch(setAppStatusAC('succeeded'))
-      })
+    const res = await recoverPaswordAPI.sendEmail(email, message)
+      if (res.data){    
+      dispatch(recoverAC(res.data.info))
+    }
   }
-}
+      catch (error: any | AxiosError<{ error: string; }, any>)
+    {
+      errorUtils(error, dispatch)
+    }
+    finally
+    {
+      dispatch(setAppStatusAC('succeeded'))
+    }
+  }

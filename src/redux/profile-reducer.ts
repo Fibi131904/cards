@@ -8,36 +8,45 @@ import { AppThunk } from './redux-store';
 const initialState = {
     _id: '',
     name: 'Enter your name',
-    avatar: '',  
-    email: '' ,
+    avatar: '',
+    email: '',
     publicCardPacksCount: 0
 }
 
-export const profileReducer = (state: UserDataType = initialState, action: ActionType): InitialStateType => {
-    switch (action.type) {
+export const profileReducer = (state: UserDataType = initialState, action: ActionType): InitialStateType =>
+{
+    switch (action.type)
+    {
         case 'profile/SET_USER_DATA': {
-            return { ...state ,...action.userData}
-        }       
+            return { ...state, ...action.userData }
+        }
         default:
             return state
     }
 
 }
 
-export const setUserDataAC = (userData: UserDataType) => ({type: 'profile/SET_USER_DATA', userData} as const)
+export const setUserDataAC = (userData: UserDataType) => ({ type: 'profile/SET_USER_DATA', userData } as const)
 
-export const updateUserDataTC = (userData: UserDataType): AppThunk => (dispatch) => {
+export const updateUserDataTC = (userData: UserDataType): AppThunk => async (dispatch) =>
+{
     dispatch(setAppStatusAC('loading'))
-    profileAPI.updateUserData(userData)
-        .then((res) => {
+    try
+    {
+        const res = await profileAPI.updateUserData(userData)
+        if (res.data)
+        {
             dispatch(setUserDataAC(res.data.updatedUser))
-        })
-        .catch((error: AxiosError<{ error: string }>) => {
-            errorUtils(error, dispatch)
-        })
-        .finally(() => {
-            dispatch(setAppStatusAC('succeeded'))
-        })
+        }
+    }
+    catch (error: any | AxiosError<{ error: string; }, any>)
+    {
+        errorUtils(error, dispatch)
+    }
+    finally
+    {
+        dispatch(setAppStatusAC('succeeded'))
+    }
 }
 export type UserDataType = {
     _id: string
@@ -56,4 +65,4 @@ export type UserDataType = {
 }
 
 export type InitialStateType = typeof initialState
-export type ActionType = ReturnType <typeof setUserDataAC> 
+export type ActionType = ReturnType<typeof setUserDataAC> 
