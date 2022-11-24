@@ -8,16 +8,13 @@ import { AppThunk } from './redux-store';
 
 
 
-export type AuthActionType = ReturnType<typeof setIsLoggedInAC>
-export type InitialStateType = typeof initialState
-
-
 const initialState = { isLoggedIn: false }
 
 
 export const authReducer = (state: InitialStateType = initialState, action: AuthActionType): InitialStateType =>
 {
-    switch (action.type) {
+    switch (action.type)
+    {
         case 'login/SET-IS-LOGGED-IN':
             return { ...state, isLoggedIn: action.value }
         default:
@@ -28,7 +25,8 @@ export const authReducer = (state: InitialStateType = initialState, action: Auth
 
 export const setIsLoggedInAC = (value: boolean) => ({ type: 'login/SET-IS-LOGGED-IN', value } as const)
 
-export const loginTC = (data: DataLoginType): AppThunk  => (dispatch: Dispatch) => {
+export const loginTC = (data: DataLoginType): AppThunk => (dispatch: Dispatch) =>
+{
     dispatch(setAppStatusAC('loading'))
     authAPI.login(data)
         .then((res) =>
@@ -38,7 +36,6 @@ export const loginTC = (data: DataLoginType): AppThunk  => (dispatch: Dispatch) 
         .catch((error: AxiosError<{ error: string }>) =>
         {
             errorUtils(error, dispatch)
-
         })
         .finally(() =>
         {
@@ -62,6 +59,8 @@ export const logoutTC = (): AppThunk => async (dispatch) =>
     {
         dispatch(setAppStatusAC('succeeded'))
     }
-
 }
+
+export type AuthActionType = ReturnType<typeof setIsLoggedInAC>
+export type InitialStateType = typeof initialState
  

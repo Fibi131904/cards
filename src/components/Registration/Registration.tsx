@@ -115,7 +115,7 @@ export const Registration = () => {
           />
         </FormControl>
         {formik.touched.email && formik.errors.email ? (
-          <div>{formik.errors.email}</div>
+          <div  className={s.error}>{formik.errors.email}</div>
         ) : null}
         <FormControl>
           <InputLabel color="primary">Password</InputLabel>
@@ -144,7 +144,7 @@ export const Registration = () => {
         </FormControl>
 
         {formik.touched.password && formik.errors.password ? (
-          <div>{formik.errors.password}</div>
+          <div  className={s.error}>{formik.errors.password}</div>
         ) : null}
           <FormControl>
                     <InputLabel color={'primary'}>Confirm password</InputLabel>
@@ -170,7 +170,7 @@ export const Registration = () => {
                 </FormControl>
 
         {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-          <div>{formik.errors.confirmPassword}</div>
+          <div  className={s.error}>{formik.errors.confirmPassword}</div>
         ) : null}
 
         <Button type={'submit'} variant={'contained'} color={'primary'}>
