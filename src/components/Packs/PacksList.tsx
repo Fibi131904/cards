@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { SuperDoubleRange } from '../../common/SuperDoubleRange/SuperDoubleRange'
 import s from './PacksList.module.css'
+import { PacksTable } from './PacksTable'
 
 export const PacksList = () => {
   const [value1, setValue1] = useState(0)
@@ -37,8 +38,9 @@ export const PacksList = () => {
 
       <div>
         <div>Table</div>
-        name cards last updated created by action
+       
       </div>
+     < PacksTable/>
     </div>
   )
 }

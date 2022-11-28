@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Error404 } from '../common/error404/Error404'
 import { CheckEmail } from '../components/CheckEmail'
-import { PacksList } from '../components/PacksList/PacksList'
+import { PacksList } from '../components/Packs/PacksList'
 import { Login } from '../components/Login/Login'
 import { Profile } from '../components/Profile'
 import { RecoverPassword } from '../components/RecoverPassword'
