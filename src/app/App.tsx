@@ -6,6 +6,7 @@ import { authMeTC } from '../redux/app-reducer'
 import { CircularProgress } from '@material-ui/core'
 import { RoutesPage } from './RoutesPage'
 
+
   const App = () => {
   const dispatch = useTypedDispatch()
   const isInitialized = useAppSelector((state) => state.app.isInitialized)
@@ -37,7 +38,7 @@ import { RoutesPage } from './RoutesPage'
         </div>
       )}
       <HashRouter>
-        <Header />
+        <Header />      
         <RoutesPage />
       </HashRouter>
     </div>

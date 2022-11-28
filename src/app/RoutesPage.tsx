@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Error404 } from '../common/error404/Error404'
 import { CheckEmail } from '../components/CheckEmail'
+import { PacksList } from '../components/PacksList/PacksList'
 import { Login } from '../components/Login/Login'
 import { Profile } from '../components/Profile'
 import { RecoverPassword } from '../components/RecoverPassword'
@@ -21,6 +22,7 @@ export const RoutesPage = () => {
       <Route path={'/setNewPassword/:token'} element={<SetNewPassword />} />
       <Route path={'/404'} element={<Error404 />} />
       <Route path={'*'} element={<Navigate to={'404'} />} />
+      <Route path={'/packsList'} element={<PacksList/>} />
     </Routes>
   )
 }

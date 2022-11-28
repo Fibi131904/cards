@@ -1,0 +1,33 @@
+.headerBlock {
+  display: flex;
+  border: 1px solid;
+  justify-content: space-around;
+}
+
+.search {
+  border: 1px solid;
+  margin: 20px;
+}
+
+.search2 {
+  border: 1px solid red;
+  margin: 20px;
+  padding: 10px;
+}
+
+.search3 {
+  border: 1px solid green;
+  margin: 20px;
+  padding: 10px;
+}
+.superDoubleRange {
+  display: flex;
+}
+
+span {
+  margin: 5px;
+}
+
+.divValue2 {
+  margin-left: 15px;
+}
