@@ -28,7 +28,9 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
   {
     case 'packs/SET_PACKS':
       return { ...state, cardPacks: action.packs }
-  }
+    default:
+    return state
+   }
 }
 
 export const getPacksAC = (packs: PacksType[]) => ({ type: 'packs/SET_PACKS', packs } as const)
