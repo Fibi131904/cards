@@ -1,3 +1,5 @@
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Paper from '@material-ui/core/Paper';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Table from '@material-ui/core/Table';
@@ -8,58 +10,68 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import React from 'react'
 import { useAppSelector } from '../../redux/redux-store';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import SchoolIcon from '@mui/icons-material/School';
+
+
+
 
 export const PacksTable=()=>{
    const packs = useAppSelector(state => state.packs.cardPacks)
-    const userId = useAppSelector(state => state.profile._id)
-    
+    // const userId = useAppSelector(state => state.profile._id)
+    const status = useAppSelector((state) => state.app.status)
+
   const useStyles = makeStyles({
     table: {
       minWidth: 650,
     },
   });
  
-  function createData(Name: string, Cards: number, LastUpdated: number, createdBy:number, Action: any) {
-    return { Name, Cards, LastUpdated, createdBy, Action };
-  }
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
+ 
+  
  
   const classes = useStyles();
   return (
     <>
-        <TableContainer component={Paper}>
+      <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell> Name </TableCell>
-            <TableCell align="right">Cards</TableCell>
-            <TableCell align="right">LastUpdated</TableCell>
-            <TableCell align="right">createdBy</TableCell>
-            <TableCell align="right">Action</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.Name}>
-              <TableCell component="th" scope="row">
-                {row.Name}
-              </TableCell>
-              <TableCell align="right">{row.Cards}</TableCell>
-              <TableCell align="right">{row.LastUpdated}</TableCell>
-              <TableCell align="right">{row.createdBy}</TableCell>
-              <TableCell align="right">{row.Action}</TableCell>
+          <TableHead>
+            <TableRow>
+              <TableCell> Name </TableCell>
+              <TableCell align="center">Cards</TableCell>
+              <TableCell align="center">LastUpdated</TableCell>
+              <TableCell align="center">createdBy</TableCell>
+              <TableCell align="center">Action</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
- 
+          </TableHead>
+          <TableBody>
+            {packs.length
+              ? status !== 'loading' &&
+                packs?.map((pack) => (
+                  <TableRow key={pack._id}>
+                    <TableCell component="th" scope="row">
+                      {pack.name}
+                    </TableCell>
+                    <TableCell align="center">{pack.cardsCount}</TableCell>
+                    <TableCell align="center">{pack.user_name}</TableCell>
+                    <TableCell align="center">{pack.updated}</TableCell>
+                    <TableCell>
+                    <SchoolIcon fontSize="small" color='primary' />
+                    <BorderColorIcon fontSize="small" color='primary'/>
+                      <IconButton aria-label="delete">
+                        <DeleteIcon fontSize="small" />                       
+                      </IconButton>                       
+                    </TableCell>
+                  </TableRow>
+                ))
+              : status !== 'loading' && (
+                  <TableRow>
+                    <TableCell>{'NO PACKS FOUND'}</TableCell>
+                  </TableRow>
+                )}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   )
 }
