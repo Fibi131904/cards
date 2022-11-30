@@ -28,12 +28,16 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
   {
     case 'packs/SET_PACKS':
       return { ...state, cardPacks: action.packs }
+    case 'packs/SET_PAGE':
+      return { ...state, params: {...state.params, page: action.page }}
+
     default:
     return state
    }
 }
 
 export const getPacksAC = (packs: PacksType[]) => ({ type: 'packs/SET_PACKS', packs } as const)
+export const setPageAC = (page:number) => ({ type: 'packs/SET_PAGE', page } as const)
 
 export const getPacksTC = (): AppThunk => async (dispatch, getState) =>
 {
@@ -60,6 +64,28 @@ export const getPacksTC = (): AppThunk => async (dispatch, getState) =>
     dispatch(setAppStatusAC('succeeded'))
   }
 }
+export const addPackTC = (name: string,  deckCover: string, isPrivate?: boolean ): AppThunk => async (dispatch) =>
+{  
+  dispatch(setAppStatusAC('loading'))
+  try
+  {
+    const res = await packAPI.addPack(
+     name, deckCover,isPrivate)
+    if (res.data)
+    {
+      dispatch(getPacksTC())
+    }
+  }
+  catch (error: any | AxiosError<{ error: string; }, any>)
+  {
+    errorUtils(error, dispatch)
+  }
+  finally
+  {
+    dispatch(setAppStatusAC('succeeded'))
+  }
+}
 
 export type InitialStateType = typeof initialState
-export type ActionsType = ReturnType<typeof getPacksAC> 
+export type ActionsType = ReturnType<typeof getPacksAC>
+| ReturnType<typeof setPageAC>

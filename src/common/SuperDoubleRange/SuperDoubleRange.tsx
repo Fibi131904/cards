@@ -1,26 +1,16 @@
-import { Box, Slider } from '@material-ui/core'
+import Box from '@mui/material/Box'
+import Slider, { SliderProps } from '@mui/material/Slider'
 import React from 'react'
 
-
-type SuperDoubleRangePropsType = {
-  onChangeRange2: (value: [number, number]) => void
-  value: [number, number]
-}
-export const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
-  { onChangeRange2, value }) => {
- 
-  const onChangeCallback = (e: React.ChangeEvent<{}>, newValue: any) => {
-    onChangeRange2(newValue);
-  }
+export const SuperDoubleRange: React.FC<SliderProps> = ({ ...restProps }) => {
   return (
-    <Box sx={{ width: 400 }}>
+    <Box sx={{ width: 300 }}>
       <Slider
-        getAriaLabel={() => 'Temperature range'}
-        value={value}
-        onChange={onChangeCallback}
-        valueLabelDisplay="auto"
-
+        color={'primary'}
+        valueLabelDisplay="on"
+        disableSwap
+        {...restProps}
       />
     </Box>
-  );
+  )
 }

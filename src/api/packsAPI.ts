@@ -5,6 +5,9 @@ export const packAPI={
   getPacks(params?:RequestGetPacksType){
     return instance.get<RequestGetPacksType, AxiosResponse<ResponseGetPacksType>>('/cards/pack', {params})
   },
+  addPack(name: string,  deckCover: string, isPrivate?: boolean ){
+    return instance.post('/cards/pack',{cardsPack:{name, deckCover, private: isPrivate}})
+  }
 }
 
 type RequestGetPacksType={
