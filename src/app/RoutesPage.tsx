@@ -7,6 +7,7 @@ import { Profile } from '../components/Profile'
 import { RecoverPassword } from '../components/RecoverPassword'
 import { Registration } from '../components/Registration/Registration'
 import { SetNewPassword } from '../components/SetNewPassword'
+import { CardsList } from '../components/Cards/CardsList'
 
 export const RoutesPage = () => {
   return (
@@ -23,6 +24,7 @@ export const RoutesPage = () => {
       <Route path={'/404'} element={<Error404 />} />
       <Route path={'*'} element={<Navigate to={'404'} />} />
       <Route path={'/packsList'} element={<PacksList/>} />
+      <Route path={'/cards/:packId/:packName'} element={<CardsList/>}/>
     </Routes>
   )
 }

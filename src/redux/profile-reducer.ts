@@ -64,5 +64,5 @@ export type UserDataType = {
     avatar: string
 }
 
-export type InitialStateType = typeof initialState
-export type ActionType = ReturnType<typeof setUserDataAC> 
+type InitialStateType = typeof initialState
+type ActionType = ReturnType<typeof setUserDataAC> 

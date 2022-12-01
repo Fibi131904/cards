@@ -30,6 +30,12 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
       return { ...state, cardPacks: action.packs }
     case 'packs/SET_PAGE':
       return { ...state, params: { ...state.params, page: action.page } }
+    case 'packs/SET_PAGE_COUNT':
+      return { ...state, params: { ...state.params, pageCount: action.pageCount } }
+    case 'packs/SET_PACKS_TOTAL_COUNT':
+      return {...state, cardPacksTotalCount: action.cardPacksTotalCount}
+    case 'packs/IS_MY_PACK':
+      return { ...state, isMyPack: action.isMyPack } 
 
     default:
       return state
@@ -38,6 +44,11 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
 
 export const getPacksAC = (packs: PacksType[]) => ({ type: 'packs/SET_PACKS', packs } as const)
 export const setPageAC = (page: number) => ({ type: 'packs/SET_PAGE', page } as const)
+export const setPageCountAC = (pageCount: number) => ({ type: 'packs/SET_PAGE_COUNT',pageCount } as const)
+export const isMyPackAC = (isMyPack: boolean) => ({ type: 'packs/IS_MY_PACK', isMyPack
+} as const)
+export const setPacksTotalCountAC = (cardPacksTotalCount: number) => ({ type: 'packs/SET_PACKS_TOTAL_COUNT', cardPacksTotalCount
+} as const)
 
 
 export const getPacksTC = (): AppThunk => async (dispatch, getState) =>
@@ -54,6 +65,9 @@ export const getPacksTC = (): AppThunk => async (dispatch, getState) =>
     if (res.data.cardPacks)
     {
       dispatch(getPacksAC(res.data.cardPacks))
+      dispatch(setPageAC(res.data.page))
+      dispatch(setPageCountAC(res.data.pageCount))
+      dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount))
     }
   }
   catch (error: any | AxiosError<{ error: string; }, any>)
@@ -133,3 +147,6 @@ export const updatePackTC = (id: string, name: string, deckCover: string): AppTh
 export type InitialStateType = typeof initialState
 export type ActionsType = ReturnType<typeof getPacksAC>
   | ReturnType<typeof setPageAC>
+  | ReturnType<typeof setPageCountAC>
+  | ReturnType<typeof isMyPackAC>
+  | ReturnType<typeof setPacksTotalCountAC>
