@@ -3,12 +3,12 @@ import React,{ ChangeEvent } from "react"
 import {  useState } from "react"
 import {Link, useNavigate } from "react-router-dom"
 import { recoverTC } from "../redux/recoverPassword-reducer"
-import { useTypedDispatch } from "../redux/redux-store"
+import { useAppDispatch } from "../redux/redux-store"
 import s from '../styles/Authorization.module.css'
 
 
 export const RecoverPassword = React.memo(() => {
-  const dispatch = useTypedDispatch() 
+  const dispatch = useAppDispatch() 
   const [email, setEmail] = useState('')
   const navigate = useNavigate()
 

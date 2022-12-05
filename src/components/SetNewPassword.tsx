@@ -2,7 +2,7 @@ import { Button, FormControl, IconButton, Input, InputAdornment, InputLabel } fr
 import React, { useCallback } from "react"
 import { Navigate, useParams } from "react-router-dom"
 import s from '../styles/Authorization.module.css'
-import { useAppSelector, useTypedDispatch } from "../redux/redux-store"
+import { useAppSelector, useAppDispatch } from "../redux/redux-store"
 import { Visibility, VisibilityOff } from "@material-ui/icons"
 import { useFormik } from "formik"
 import { setInfoTC } from "../redux/setNewPassword-reducer"
@@ -19,7 +19,7 @@ type StatePassword = {
 }
 
 export const SetNewPassword = React.memo( () => {
-  const dispatch = useTypedDispatch()
+  const dispatch = useAppDispatch()
     const isPasswordChanged = useAppSelector(state => state.setNewPassword.isPasswordChanged)
     const {token} = useParams()
 

@@ -1,152 +1,116 @@
-import { packAPI } from './../api/packsAPI';
-import { PacksType } from "../api/packsAPI"
+import { packsAPI } from './../api/packsAPI';
 import { setAppStatusAC } from "./app-reducer"
 import { AppThunk } from "./redux-store"
 import { AxiosError } from 'axios';
 import { errorUtils } from '../utils/error-utils';
 
-
-const initialState = {
-  cardPacks: [] as PacksType[],
-  cardPacksTotalCount: 0,
-  minCardsCount: 0,
-  maxCardsCount: 110,
-  params: {
-    page: 1,
-    pageCount: 10,
-    minCardsCount: 0,
-    maxCardsCount: 110,
-    packName: '',
-    sortPacks: '',
-  },
-  isMyPack: false
+export type PacksType = {
+  _id: string,
+  user_id: string,
+  user_name: string,
+  private: boolean,
+  name: string,
+  path: string,
+  grade: number,
+  shots: number,
+  cardsCount: number,
+  type: string,
+  rating: number,
+  created: string,
+  updated: string,
+  more_id: string,
+  __v: number,
 }
 
-export const packsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType =>
-{
-  switch (action.type)
-  {
-    case 'packs/SET_PACKS':
-      return { ...state, cardPacks: action.packs }
-    case 'packs/SET_PAGE':
-      return { ...state, params: { ...state.params, page: action.page } }
-    case 'packs/SET_PAGE_COUNT':
-      return { ...state, params: { ...state.params, pageCount: action.pageCount } }
-    case 'packs/SET_PACKS_TOTAL_COUNT':
-      return {...state, cardPacksTotalCount: action.cardPacksTotalCount}
-    case 'packs/IS_MY_PACK':
-      return { ...state, isMyPack: action.isMyPack } 
+const initialState = {
+  cardPacks: [] as Array<PacksType>,
+  isCheckedMyPacks: false,
+  cardPacksTotalCount: 0,
+  maxCardsCount: 0,
+  minCardsCount: 0,
+  page: 0,
+  pageCount: 7,
+  currentPack: '',
+  searchName: ''
+}
 
-    default:
+export const packsReducer = (state: PackInitStateType = initialState, action: PackActionType): PackInitStateType =>
+{
+  switch (action.type) 
+  {
+    case 'Packs/GET_PACKS_CARD_DATA': {
+      return {
+  ...state,
+        cardPacks: action.packs.cardPacks,
+        cardPacksTotalCount: action.packs.cardPacksTotalCount,
+        maxCardsCount: action.packs.maxCardsCount,
+        page: action.packs.page
+      }
+    }
+    case 'Packs/SET_TOTAL_PACK_COUNT':{
+      return{
+        ...state, cardPacksTotalCount:action.cardPacksTotalCount
+      }
+    }
+    case 'Packs/SET_CURRENT_PAGES':{
+      return{
+        ...state, page:action.currentPage
+      }
+    }
+default:
       return state
   }
 }
 
-export const getPacksAC = (packs: PacksType[]) => ({ type: 'packs/SET_PACKS', packs } as const)
-export const setPageAC = (page: number) => ({ type: 'packs/SET_PAGE', page } as const)
-export const setPageCountAC = (pageCount: number) => ({ type: 'packs/SET_PAGE_COUNT',pageCount } as const)
-export const isMyPackAC = (isMyPack: boolean) => ({ type: 'packs/IS_MY_PACK', isMyPack
-} as const)
-export const setPacksTotalCountAC = (cardPacksTotalCount: number) => ({ type: 'packs/SET_PACKS_TOTAL_COUNT', cardPacksTotalCount
-} as const)
 
 
-export const getPacksTC = (): AppThunk => async (dispatch, getState) =>
-{
-  const { isMyPack, params } = getState().packs
-  const userId = getState().profile._id
-  dispatch(setAppStatusAC('loading'))
-  try
-  {
-    const res = await packAPI.getPacks({
-      user_id: isMyPack ? userId : '',
-      ...params
-    })
-    if (res.data.cardPacks)
-    {
-      dispatch(getPacksAC(res.data.cardPacks))
-      dispatch(setPageAC(res.data.page))
-      dispatch(setPageCountAC(res.data.pageCount))
-      dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount))
-    }
-  }
-  catch (error: any | AxiosError<{ error: string; }, any>)
-  {
-    errorUtils(error, dispatch)
-  }
-  finally
-  {
-    dispatch(setAppStatusAC('succeeded'))
+export const getPacksCartDataAC = (packs: PackInitStateType) => ({ type: 'Packs/GET_PACKS_CARD_DATA', packs } as const)
+export const setTotalPackCountAC = (cardPacksTotalCount: number) => ({ type: 'Packs/SET_TOTAL_PACK_COUNT', cardPacksTotalCount } as const)
+export const setCurrentPagesAC = (currentPage: number) => ({ type: 'Packs/SET_CURRENT_PAGES', currentPage } as const)
+
+export const getPacksCardTC = (): AppThunk => (dispatch, getState) => {
+  const {minCardsCount, page, pageCount,searchName} = getState().packs
+  packsAPI.getPacks(searchName, page, pageCount, minCardsCount)
+      .then((res) => {
+          dispatch(getPacksCartDataAC(res.data))
+      })
+}
+export const setPrivatPacksTC = (): AppThunk => (dispatch, getState) => {
+  const userID = getState().profile._id
+  const { minCardsCount, page, pageCount,searchName} = getState().packs
+          packsAPI.getPacks(searchName, page, pageCount, minCardsCount,userID)
+              .then((res) => {
+                  dispatch(getPacksCartDataAC(res.data))
+              })
+}
+
+export const getUserTC = (currentPage: number, pageCount: number): AppThunk => (dispatch, getState) => {
+  const {isCheckedMyPacks, minCardsCount,searchName} = getState().packs
+  const userID = getState().profile._id
+  if (!isCheckedMyPacks) {
+      packsAPI.getPacks(searchName, currentPage, pageCount, minCardsCount)
+          .then(data => {
+              dispatch(setTotalPackCountAC(data.data.cardPacksTotalCount))
+              dispatch(setCurrentPagesAC(currentPage))
+              dispatch(getPacksCartDataAC(data.data))
+          })
+  } else {
+              packsAPI.getPacks(searchName, currentPage, pageCount, minCardsCount,userID)
+                  .then((data) => {
+                      dispatch(setTotalPackCountAC(data.data.cardPacksTotalCount))
+                      dispatch(setCurrentPagesAC(currentPage))
+                      dispatch(getPacksCartDataAC(data.data))
+                  })
   }
 }
 
-export const addPackTC = (name: string, deckCover: string, isPrivate?: boolean): AppThunk => async (dispatch) =>
-{
-  dispatch(setAppStatusAC('loading'))
-  try
-  {
-    const res = await packAPI.addPack(
-      name, deckCover, isPrivate)
-    if (res.data)
-    {
-      dispatch(getPacksTC())
-    }
-  }
-  catch (error: any | AxiosError<{ error: string; }, any>)
-  {
-    errorUtils(error, dispatch)
-  }
-  finally
-  {
-    dispatch(setAppStatusAC('succeeded'))
-  }
-}
 
-export const deletePackTC = (id: string): AppThunk => async (dispatch) =>
-{
-  dispatch(setAppStatusAC('loading'))
-  try
-  {
-    const res = await packAPI.deletePack(id)
-    if (res.data)
-    {
-      dispatch(getPacksTC())
-    }
-  }
-  catch (error: any | AxiosError<{ error: string; }, any>)
-  {
-    errorUtils(error, dispatch)
-  }
-  finally
-  {
-    dispatch(setAppStatusAC('succeeded'))
-  }
-}
 
-export const updatePackTC = (id: string, name: string, deckCover: string): AppThunk => async (dispatch) =>
-{
-  dispatch(setAppStatusAC('loading'))
-  try
-  {
-    const res = await packAPI.updatePack(id, name, deckCover)
-    if (res.data)
-    {
-      dispatch(getPacksTC())
-    }
-  }
-  catch (error: any | AxiosError<{ error: string; }, any>)
-  {
-    errorUtils(error, dispatch)
-  }
-  finally
-  {
-    dispatch(setAppStatusAC('succeeded'))
-  }
-}
+export type PackActionType = ReturnType<typeof getPacksCartDataAC>
+| ReturnType<typeof setTotalPackCountAC>
+| ReturnType<typeof setCurrentPagesAC>
 
-export type InitialStateType = typeof initialState
-export type ActionsType = ReturnType<typeof getPacksAC>
-  | ReturnType<typeof setPageAC>
-  | ReturnType<typeof setPageCountAC>
-  | ReturnType<typeof isMyPackAC>
-  | ReturnType<typeof setPacksTotalCountAC>
+
+export type PackInitStateType = typeof initialState
+
+

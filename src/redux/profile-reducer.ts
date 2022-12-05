@@ -1,5 +1,4 @@
 import { AxiosError } from 'axios';
-import React from 'react';
 import { profileAPI } from '../api/profileAPI';
 import { errorUtils } from '../utils/error-utils';
 import { setAppStatusAC } from './app-reducer';
@@ -31,6 +30,7 @@ export const setUserDataAC = (userData: UserDataType) => ({ type: 'profile/SET_U
 export const updateUserDataTC = (userData: UserDataType): AppThunk => async (dispatch) =>
 {
     dispatch(setAppStatusAC('loading'))
+    profileAPI.updateUserData(userData)
     try
     {
         const res = await profileAPI.updateUserData(userData)
@@ -62,6 +62,11 @@ export type UserDataType = {
     token?: string
     tokenDeathTime?: number
     avatar: string
+}
+export type UpdateResponseType = {
+    updatedUser: UserDataType
+    token: string
+    tokenDeathTime: string
 }
 
 type InitialStateType = typeof initialState

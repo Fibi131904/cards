@@ -1,5 +1,4 @@
 import { AxiosError } from 'axios';
-import { Dispatch } from 'redux';
 import { authAPI } from '../api/authAPI';
 import { DataLoginType } from '../api/types';
 import { errorUtils } from '../utils/error-utils';

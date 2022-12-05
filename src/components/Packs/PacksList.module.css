@@ -31,3 +31,13 @@ span {
 .divValue2 {
   margin-left: 15px;
 }
+
+.btn {
+  display: inline-block; 
+  background: #3f51b5;
+  color: #fff; 
+  padding: 5px 1.5rem;
+  text-decoration: none;
+  border-radius: 5px;
+  text-align: center;
+ }

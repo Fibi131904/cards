@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Link, Navigate } from 'react-router-dom'
-import { useAppSelector, useTypedDispatch } from '../../redux/redux-store'
+import { useAppSelector, useAppDispatch } from '../../redux/redux-store'
 import { registerTC } from '../../redux/register-reducer'
 import { useFormik } from 'formik'
 import s from '../../styles/Authorization.module.css'
@@ -30,7 +30,7 @@ type StateConfirmPassword = {
 }
 
 export const Registration = () => {
-  const dispatch = useTypedDispatch()
+  const dispatch = useAppDispatch()
   const isRegistered = useAppSelector((state) => state.register.isRegistered)
 
   const formik = useFormik({

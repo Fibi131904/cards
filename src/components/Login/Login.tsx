@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { useFormik } from 'formik'
 import s from '../../styles/Authorization.module.css'
 import { loginTC } from '../../redux/auth-reducer'
-import { AppStateType, useTypedDispatch } from '../../redux/redux-store'
+import { AppStateType, useAppDispatch } from '../../redux/redux-store'
 import {
   Button,
   Checkbox,
@@ -32,7 +32,7 @@ export const Login = () => {
   const isLoggedIn = useSelector<AppStateType, boolean>(
     (state) => state.auth.isLoggedIn
   )
-  const dispatch = useTypedDispatch()
+  const dispatch = useAppDispatch()
   const formik = useFormik({
     initialValues: {
       email: '',

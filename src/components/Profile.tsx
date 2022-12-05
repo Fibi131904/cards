@@ -4,7 +4,7 @@ import s from '../styles/Authorization.module.css'
 import { Button, IconButton } from '@material-ui/core'
 import BorderColorIcon from '@material-ui/icons/BorderColor'
 import { EditableSpan } from '../common/EditableSpan/EditableSpan'
-import { useAppSelector, useTypedDispatch } from '../redux/redux-store'
+import { useAppSelector, useAppDispatch } from '../redux/redux-store'
 import { updateUserDataTC } from '../redux/profile-reducer'
 import { logoutTC } from '../redux/auth-reducer'
 import { Navigate } from 'react-router-dom'
@@ -25,7 +25,7 @@ export const Profile: React.FC<ProfileType> = ({ disabled }) => {
   const publicCardPacksCount = useAppSelector(
     (state) => state.profile.publicCardPacksCount
   )
-  const dispatch = useTypedDispatch()
+  const dispatch = useAppDispatch()
   const [editMode, setEditMode] = useState<boolean>(false)
 
   const activateEditMode = () => {

@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import { HashRouter } from 'react-router-dom'
 import { Header } from '../components/Header/Header'
-import { useAppSelector, useTypedDispatch } from '../redux/redux-store'
+import { useAppSelector, useAppDispatch } from '../redux/redux-store'
 import { authMeTC } from '../redux/app-reducer'
 import { CircularProgress } from '@material-ui/core'
 import { RoutesPage } from './RoutesPage'
 
 
   const App = () => {
-  const dispatch = useTypedDispatch()
+  const dispatch = useAppDispatch()
   const isInitialized = useAppSelector((state) => state.app.isInitialized)
   const status = useAppSelector((state) => state.app.status)
 
