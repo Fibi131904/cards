@@ -10,8 +10,11 @@ export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 const initialState = {
   status: 'idle' as RequestStatusType,
   error: null as null | string,
-  isInitialized: false
+  isInitialized: false,
+  statusTraining: false,
+  alertList: [] as Array<AlertContentType>, 
 }
+
 export const appReducer = (state: InitialStateType = initialState, action: ActionTypes): InitialStateType =>
 {
   switch (action.type)
@@ -28,6 +31,16 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
       return {
         ...state, isInitialized: action.value
       }
+    case 'APP/SET_STATUS_TRAINING':
+      return {
+        ...state, statusTraining: action.status
+      }
+    case 'APP/SET_ALERT':
+      return {
+        ...state,
+        alertList: [...state.alertList, action.alert]
+    }
+
     default:
       return state
   }
@@ -38,6 +51,10 @@ export const setAppErrorAC = (error: null | string) => ({
   type: 'APP/SET_ERROR', error
 } as const)
 export const setInitializedAC = (value: boolean) => ({ type: 'APP/SET_IS_INITIALIZED', value } as const)
+export const setStatusTrainingAC = (status: boolean) => ({ type: 'APP/SET_STATUS_TRAINING', status} as const)
+export const setAlertListAC = (alert: AlertContentType) => ({ type: 'APP/SET_ALERT', alert} as const)
+
+
 
 export const authMeTC = (): AppThunk => async (dispatch) =>
 {
@@ -62,3 +79,20 @@ export const authMeTC = (): AppThunk => async (dispatch) =>
 
 type InitialStateType = typeof initialState
 export type ActionTypes = ReturnType<typeof setAppStatusAC> | ReturnType<typeof setAppErrorAC> | ReturnType<typeof setInitializedAC>
+| ReturnType<typeof setStatusTrainingAC>
+| ReturnType<typeof setAlertListAC>
+
+// type AlertTypeInfo = 'error' | 'success' | 'info' | 'warning'
+
+// export type AlertType = {
+//   id: number
+//   type: AlertTypeInfo
+//   title: string
+// }
+type AlertType = 'error' | 'success' | 'info' | 'warning'
+export type AlertContentType = {
+    id: number
+    type: AlertType
+    title: string
+}
+

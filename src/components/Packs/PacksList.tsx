@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/redux-store'
 import { Paginator } from '../Paginator/Paginator'
 import { Table } from './Table/Table'
 import s from './PacksList.module.css'
+import { SearchByName } from '../../common/Search/SearchByName'
 
 
 export const PacksList=()=>{
@@ -14,10 +15,15 @@ export const PacksList=()=>{
   const page = useAppSelector(state => state.packs.page)
 
   const pageClickChange = (page: number) => dispatch(getUserTC(page, pageCount))
+  const onSearchNameClick=(name:string)=>{
+    dispatch(getUserTC(page, pageCount))
+  }
   return(
     <div>
 <h3>Pack List</h3>
-<div>Search</div>
+<SearchByName searchName={onSearchNameClick}/>
+
+
 <Link to="/addNewPack" className={s.btn}>Add New Pack</Link>
 <div>
  <Table/>
@@ -26,7 +32,8 @@ export const PacksList=()=>{
   <Paginator pageClickChange={pageClickChange}
       currentPage={page} pageSize={pageCount} totalCount={cardPacksTotalCount}/>
 </div>
-    </div>
+</div>
+  
   )
 }
 

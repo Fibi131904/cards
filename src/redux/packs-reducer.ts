@@ -1,8 +1,7 @@
 import { packsAPI } from './../api/packsAPI';
-import { setAppStatusAC } from "./app-reducer"
+import { setAlertListAC } from "./app-reducer"
 import { AppThunk } from "./redux-store"
-import { AxiosError } from 'axios';
-import { errorUtils } from '../utils/error-utils';
+
 
 export type PacksType = {
   _id: string,
@@ -57,6 +56,11 @@ export const packsReducer = (state: PackInitStateType = initialState, action: Pa
         ...state, page:action.currentPage
       }
     }
+    case 'Packs/SEARCH_NAME':{
+      return{
+        ...state, searchName:action.name
+      }
+    }
 default:
       return state
   }
@@ -67,6 +71,7 @@ default:
 export const getPacksCartDataAC = (packs: PackInitStateType) => ({ type: 'Packs/GET_PACKS_CARD_DATA', packs } as const)
 export const setTotalPackCountAC = (cardPacksTotalCount: number) => ({ type: 'Packs/SET_TOTAL_PACK_COUNT', cardPacksTotalCount } as const)
 export const setCurrentPagesAC = (currentPage: number) => ({ type: 'Packs/SET_CURRENT_PAGES', currentPage } as const)
+export const searchNameAC = (name: string) => ({ type: 'Packs/SEARCH_NAME', name } as const)
 
 export const getPacksCardTC = (): AppThunk => (dispatch, getState) => {
   const {minCardsCount, page, pageCount,searchName} = getState().packs
@@ -103,12 +108,39 @@ export const getUserTC = (currentPage: number, pageCount: number): AppThunk => (
                   })
   }
 }
+export const searchNameTC = (findByName: string): AppThunk => (dispatch, getState) => {
+  const {isCheckedMyPacks, minCardsCount, page, pageCount} = getState().packs
+  const userID = getState().profile._id
+          if (!isCheckedMyPacks) {
+          packsAPI.getPacks(findByName, page, pageCount, minCardsCount)
+              .then(res => {
+                  dispatch(searchNameAC(findByName))
+                  dispatch(getPacksCartDataAC(res.data))
+                  dispatch(setAlertListAC({
+                      id: 1,
+                      type: 'success',
+                      title: `Found ${res.data.cardPacksTotalCount} decks with this name`
+                  }))
+              }) } else {
+              packsAPI.getPacks(findByName, page, pageCount, minCardsCount, userID)
+                  .then(res => {
+                      dispatch(searchNameAC(findByName))
+                      dispatch(getPacksCartDataAC(res.data))
+                      dispatch(setAlertListAC({
+                          id: 1,
+                          type: 'success',
+                          title: `Found ${res.data.cardPacksTotalCount} decks with this name`
+                      }))
+                  })
+          }
+}
 
 
 
 export type PackActionType = ReturnType<typeof getPacksCartDataAC>
 | ReturnType<typeof setTotalPackCountAC>
 | ReturnType<typeof setCurrentPagesAC>
+| ReturnType<typeof searchNameAC>
 
 
 export type PackInitStateType = typeof initialState
