@@ -41,3 +41,7 @@ span {
   border-radius: 5px;
   text-align: center;
  }
+
+ .superDoubleRange {
+  display: flex;
+}

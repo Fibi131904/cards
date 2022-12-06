@@ -15,6 +15,7 @@ export const SearchByName = (props: SearchByNamePropsType) => {
   }
   return (
       <>
+      
           <InputText name={'SearchByName'} placeholder={'Search name (onEnter)'}
                           onEnter={onEnterHandler} onChange={handleChangeFindName}
                           style={{width: '400px'}} value={findByName}

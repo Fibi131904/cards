@@ -25,10 +25,10 @@ const initialState = {
   cardPacks: [] as Array<PacksType>,
   isCheckedMyPacks: false,
   cardPacksTotalCount: 0,
-  maxCardsCount: 0,
+  maxCardsCount: 110,
   minCardsCount: 0,
-  page: 0,
-  pageCount: 7,
+  page: 1,
+  pageCount: 10,
   currentPack: '',
   searchName: ''
 }
@@ -61,6 +61,13 @@ export const packsReducer = (state: PackInitStateType = initialState, action: Pa
         ...state, searchName:action.name
       }
     }
+    case 'Packs/CHANGE_MIN_CARD_COUNT':{
+      return{
+        ...state,
+        minCardsCount: action.minCardsCount,
+        maxCardsCount:action.maxCardsCount
+      }
+    }
 default:
       return state
   }
@@ -72,6 +79,8 @@ export const getPacksCartDataAC = (packs: PackInitStateType) => ({ type: 'Packs/
 export const setTotalPackCountAC = (cardPacksTotalCount: number) => ({ type: 'Packs/SET_TOTAL_PACK_COUNT', cardPacksTotalCount } as const)
 export const setCurrentPagesAC = (currentPage: number) => ({ type: 'Packs/SET_CURRENT_PAGES', currentPage } as const)
 export const searchNameAC = (name: string) => ({ type: 'Packs/SEARCH_NAME', name } as const)
+export const changeMinCardCountAC = (minCardsCount: number, maxCardsCount: number) => ({ type: 'Packs/CHANGE_MIN_CARD_COUNT', minCardsCount,
+maxCardsCount } as const)
 
 export const getPacksCardTC = (): AppThunk => (dispatch, getState) => {
   const {minCardsCount, page, pageCount,searchName} = getState().packs
@@ -79,6 +88,11 @@ export const getPacksCardTC = (): AppThunk => (dispatch, getState) => {
       .then((res) => {
           dispatch(getPacksCartDataAC(res.data))
       })
+}
+export const filterPacksByCardsTC = (minCardsCount: number, maxCardsCount: number): AppThunk => (dispatch) => {
+  dispatch(changeMinCardCountAC( minCardsCount,
+    maxCardsCount))
+  dispatch(getPacksCardTC())
 }
 export const setPrivatPacksTC = (): AppThunk => (dispatch, getState) => {
   const userID = getState().profile._id
@@ -141,6 +155,7 @@ export type PackActionType = ReturnType<typeof getPacksCartDataAC>
 | ReturnType<typeof setTotalPackCountAC>
 | ReturnType<typeof setCurrentPagesAC>
 | ReturnType<typeof searchNameAC>
+| ReturnType<typeof changeMinCardCountAC>
 
 
 export type PackInitStateType = typeof initialState

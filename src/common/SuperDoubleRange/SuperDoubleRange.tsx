@@ -2,7 +2,12 @@ import Box from '@mui/material/Box'
 import Slider, { SliderProps } from '@mui/material/Slider'
 import React from 'react'
 
-export const SuperDoubleRange: React.FC<SliderProps> = ({ ...restProps }) => {
+
+ 
+
+  export const SuperDoubleRange: React.FC<SliderProps> = React.memo(({...restProps}) => {
+  
+
   return (
     <Box sx={{ width: 300 }}>
       <Slider
@@ -10,7 +15,8 @@ export const SuperDoubleRange: React.FC<SliderProps> = ({ ...restProps }) => {
         valueLabelDisplay="on"
         disableSwap
         {...restProps}
+       
       />
     </Box>
   )
-}
+})
