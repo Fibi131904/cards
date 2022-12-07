@@ -56,7 +56,6 @@ export const Login = () => {
     },
     onSubmit: (values) => {
       dispatch(loginTC(values))
-      formik.resetForm()
     },
   })
   const [valuesPassword, setValuesPassword] = React.useState<StatePassword>({

@@ -1,6 +1,8 @@
+import { AxiosError } from 'axios';
 import { packsAPI } from './../api/packsAPI';
-import { setAlertListAC } from "./app-reducer"
+import { setAlertListAC, setAppStatusAC } from "./app-reducer"
 import { AppThunk } from "./redux-store"
+import { errorUtils } from '../utils/error-utils';
 
 
 export type PacksType = {
@@ -39,135 +41,184 @@ export const packsReducer = (state: PackInitStateType = initialState, action: Pa
 {
   switch (action.type) 
   {
-    case 'Packs/GET_PACKS_CARD_DATA': {
+    case 'packs/GET_PACKS_CARD_DATA': {
       return {
-  ...state,
+        ...state,
         cardPacks: action.packs.cardPacks,
         cardPacksTotalCount: action.packs.cardPacksTotalCount,
         maxCardsCount: action.packs.maxCardsCount,
         page: action.packs.page
       }
     }
-    case 'Packs/SET_TOTAL_PACK_COUNT':{
-      return{
-        ...state, cardPacksTotalCount:action.cardPacksTotalCount
+    case 'packs/SET_TOTAL_PACK_COUNT': {
+      return {
+        ...state, cardPacksTotalCount: action.cardPacksTotalCount
       }
     }
-    case 'Packs/SET_CURRENT_PAGES':{
-      return{
-        ...state, page:action.currentPage
+    case 'packs/SET_CURRENT_PAGES': {
+      return {
+        ...state, page: action.currentPage
       }
     }
-    case 'Packs/SEARCH_NAME':{
-      return{
-        ...state, searchName:action.name
+    case 'packs/SEARCH_NAME': {
+      return {
+        ...state, searchName: action.name
       }
     }
-    case 'Packs/CHANGE_MIN_CARD_COUNT':{
-      return{
+    case 'packs/CHANGE_MIN_CARD_COUNT': {
+      return {
         ...state,
         minCardsCount: action.minCardsCount,
-        maxCardsCount:action.maxCardsCount
+        maxCardsCount: action.maxCardsCount
       }
     }
-    case 'packs/SET-MIN-MAX':
-      return {...state,  min: action.min, max: action.max}
-default:
+    case 'packs/SET_MIN_MAX': {
+      return { ...state, min: action.min, max: action.max }
+    }
+    case 'packs/IS_MY_PACK': {
+      return {
+        ...state,
+        isCheckedMyPacks: action.isChecked
+      }
+    }
+
+    default:
       return state
   }
 }
 
-export const setMinMaxAC = (min: number, max: number) => ({
-  type: 'packs/SET-MIN-MAX',
-  min,
-  max
+export const setMinMaxAC = (min: number, max: number) => ({ type: 'packs/SET_MIN_MAX', min, max } as const)
+export const getPacksCartDataAC = (packs: PackInitStateType) => ({ type: 'packs/GET_PACKS_CARD_DATA', packs } as const)
+export const setTotalPackCountAC = (cardPacksTotalCount: number) => ({ type: 'packs/SET_TOTAL_PACK_COUNT', cardPacksTotalCount } as const)
+export const setCurrentPagesAC = (currentPage: number) => ({ type: 'packs/SET_CURRENT_PAGES', currentPage } as const)
+export const searchNameAC = (name: string) => ({ type: 'packs/SEARCH_NAME', name } as const)
+export const changeMinCardCountAC = (minCardsCount: number, maxCardsCount: number) => ({
+  type: 'packs/CHANGE_MIN_CARD_COUNT', minCardsCount,
+  maxCardsCount
+} as const)
+export const isCheckedMyPacksAC = (isChecked: boolean) => ({
+  type: 'packs/IS_MY_PACK',
+  isChecked
 } as const)
 
 
-export const getPacksCartDataAC = (packs: PackInitStateType) => ({ type: 'Packs/GET_PACKS_CARD_DATA', packs } as const)
-export const setTotalPackCountAC = (cardPacksTotalCount: number) => ({ type: 'Packs/SET_TOTAL_PACK_COUNT', cardPacksTotalCount } as const)
-export const setCurrentPagesAC = (currentPage: number) => ({ type: 'Packs/SET_CURRENT_PAGES', currentPage } as const)
-export const searchNameAC = (name: string) => ({ type: 'Packs/SEARCH_NAME', name } as const)
-export const changeMinCardCountAC = (minCardsCount: number, maxCardsCount: number) => ({ type: 'Packs/CHANGE_MIN_CARD_COUNT', minCardsCount,
-maxCardsCount } as const)
 
-export const getPacksCardTC = (): AppThunk => (dispatch, getState) => {
-  const {minCardsCount, page, pageCount,searchName} = getState().packs
+
+export const getPacksCardTC = (): AppThunk => (dispatch, getState) =>
+{
+
+  const { minCardsCount, page, pageCount, searchName } = getState().packs
+  dispatch(setAppStatusAC('loading'))
   packsAPI.getPacks(searchName, page, pageCount, minCardsCount)
-      .then((res) => {
-          dispatch(getPacksCartDataAC(res.data))
-      })
+    .then((res) =>
+    {
+      dispatch(getPacksCartDataAC(res.data))
+    })
+    .catch((error: any | AxiosError<{ error: string; }, any>) =>
+    {
+
+      errorUtils(error, dispatch)
+    })
+
+    .finally(() =>
+    {
+      dispatch(setAppStatusAC('succeeded'))
+    })
 }
-export const filterPacksByCardsTC = (minCardsCount: number, maxCardsCount: number): AppThunk => (dispatch) => {
-  dispatch(changeMinCardCountAC( minCardsCount,
+export const filterPacksByCardsTC = (minCardsCount: number, maxCardsCount: number): AppThunk => (dispatch) =>
+{
+  dispatch(changeMinCardCountAC(minCardsCount,
     maxCardsCount))
   dispatch(getPacksCardTC())
+
 }
-export const setPrivatPacksTC = (): AppThunk => (dispatch, getState) => {
+export const filterPacksMyAllTC = (isCheckedMyPacks: boolean): AppThunk => (dispatch) =>
+{
+  dispatch(isCheckedMyPacksAC(isCheckedMyPacks))
+  dispatch(getPacksCardTC())
+
+}
+export const setPrivatPacksTC = (): AppThunk => (dispatch, getState) =>
+{
   const userID = getState().profile._id
-  const { minCardsCount, page, pageCount,searchName} = getState().packs
-          packsAPI.getPacks(searchName, page, pageCount, minCardsCount,userID)
-              .then((res) => {
-                  dispatch(getPacksCartDataAC(res.data))
-              })
+  const { minCardsCount, page, pageCount, searchName } = getState().packs
+  packsAPI.getPacks(searchName, page, pageCount, minCardsCount, userID)
+    .then((res) =>
+    {
+      dispatch(getPacksCartDataAC(res.data))
+    })
 }
 
-export const getUserTC = (currentPage: number, pageCount: number): AppThunk => (dispatch, getState) => {
-  const {isCheckedMyPacks, minCardsCount,searchName} = getState().packs
+export const getUserTC = (currentPage: number, pageCount: number): AppThunk => (dispatch, getState) =>
+{
+  const { isCheckedMyPacks, minCardsCount, searchName } = getState().packs
   const userID = getState().profile._id
-  if (!isCheckedMyPacks) {
-      packsAPI.getPacks(searchName, currentPage, pageCount, minCardsCount)
-          .then(data => {
-              dispatch(setTotalPackCountAC(data.data.cardPacksTotalCount))
-              dispatch(setCurrentPagesAC(currentPage))
-              dispatch(getPacksCartDataAC(data.data))
-          })
-  } else {
-              packsAPI.getPacks(searchName, currentPage, pageCount, minCardsCount,userID)
-                  .then((data) => {
-                      dispatch(setTotalPackCountAC(data.data.cardPacksTotalCount))
-                      dispatch(setCurrentPagesAC(currentPage))
-                      dispatch(getPacksCartDataAC(data.data))
-                  })
+  if (!isCheckedMyPacks)
+  {
+    packsAPI.getPacks(searchName, currentPage, pageCount, minCardsCount)
+      .then(data =>
+      {
+        dispatch(setTotalPackCountAC(data.data.cardPacksTotalCount))
+        dispatch(setCurrentPagesAC(currentPage))
+        dispatch(getPacksCartDataAC(data.data))
+      })
+  } else
+  {
+    packsAPI.getPacks(searchName, currentPage, pageCount, minCardsCount, userID)
+      .then((data) =>
+      {
+        dispatch(setTotalPackCountAC(data.data.cardPacksTotalCount))
+        dispatch(setCurrentPagesAC(currentPage))
+        dispatch(getPacksCartDataAC(data.data))
+      })
   }
 }
-export const searchNameTC = (findByName: string): AppThunk => (dispatch, getState) => {
-  const {isCheckedMyPacks, minCardsCount, page, pageCount} = getState().packs
+export const searchNameTC = (findByName: string): AppThunk => (dispatch, getState) =>
+{
+  const { isCheckedMyPacks, minCardsCount, page, pageCount } = getState().packs
   const userID = getState().profile._id
-          if (!isCheckedMyPacks) {
-          packsAPI.getPacks(findByName, page, pageCount, minCardsCount)
-              .then(res => {
-                  dispatch(searchNameAC(findByName))
-                  dispatch(getPacksCartDataAC(res.data))
-                  dispatch(setAlertListAC({
-                      id: 1,
-                      type: 'success',
-                      title: `Found ${res.data.cardPacksTotalCount} decks with this name`
-                  }))
-              }) } else {
-              packsAPI.getPacks(findByName, page, pageCount, minCardsCount, userID)
-                  .then(res => {
-                      dispatch(searchNameAC(findByName))
-                      dispatch(getPacksCartDataAC(res.data))
-                      dispatch(setAlertListAC({
-                          id: 1,
-                          type: 'success',
-                          title: `Found ${res.data.cardPacksTotalCount} decks with this name`
-                      }))
-                  })
-          }
+  if (!isCheckedMyPacks)
+  {
+    packsAPI.getPacks(findByName, page, pageCount, minCardsCount)
+      .then(res =>
+      {
+        dispatch(searchNameAC(findByName))
+        dispatch(getPacksCartDataAC(res.data))
+        dispatch(setAlertListAC({
+          id: 1,
+          type: 'success',
+          title: `Found ${res.data.cardPacksTotalCount} decks with this name`
+        }))
+      })
+  } else
+  {
+    packsAPI.getPacks(findByName, page, pageCount, minCardsCount, userID)
+      .then(res =>
+      {
+        dispatch(searchNameAC(findByName))
+        dispatch(getPacksCartDataAC(res.data))
+        dispatch(setAlertListAC({
+          id: 1,
+          type: 'success',
+          title: `Found ${res.data.cardPacksTotalCount} decks with this name`
+        }))
+      })
+  }
 }
 
 
 
 export type PackActionType = ReturnType<typeof getPacksCartDataAC>
-| ReturnType<typeof setTotalPackCountAC>
-| ReturnType<typeof setCurrentPagesAC>
-| ReturnType<typeof searchNameAC>
-| ReturnType<typeof changeMinCardCountAC>
-| ReturnType<typeof setMinMaxAC>
+  | ReturnType<typeof setTotalPackCountAC>
+  | ReturnType<typeof setCurrentPagesAC>
+  | ReturnType<typeof searchNameAC>
+  | ReturnType<typeof changeMinCardCountAC>
+  | ReturnType<typeof setMinMaxAC>
+  | ReturnType<typeof isCheckedMyPacksAC>
+
 
 
 export type PackInitStateType = typeof initialState
+
 
 
