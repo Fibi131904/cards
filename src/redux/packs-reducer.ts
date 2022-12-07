@@ -30,7 +30,9 @@ const initialState = {
   page: 1,
   pageCount: 10,
   currentPack: '',
-  searchName: ''
+  searchName: '',
+  min: 0,
+  max: 110,
 }
 
 export const packsReducer = (state: PackInitStateType = initialState, action: PackActionType): PackInitStateType =>
@@ -68,11 +70,18 @@ export const packsReducer = (state: PackInitStateType = initialState, action: Pa
         maxCardsCount:action.maxCardsCount
       }
     }
+    case 'packs/SET-MIN-MAX':
+      return {...state,  min: action.min, max: action.max}
 default:
       return state
   }
 }
 
+export const setMinMaxAC = (min: number, max: number) => ({
+  type: 'packs/SET-MIN-MAX',
+  min,
+  max
+} as const)
 
 
 export const getPacksCartDataAC = (packs: PackInitStateType) => ({ type: 'Packs/GET_PACKS_CARD_DATA', packs } as const)
@@ -156,6 +165,7 @@ export type PackActionType = ReturnType<typeof getPacksCartDataAC>
 | ReturnType<typeof setCurrentPagesAC>
 | ReturnType<typeof searchNameAC>
 | ReturnType<typeof changeMinCardCountAC>
+| ReturnType<typeof setMinMaxAC>
 
 
 export type PackInitStateType = typeof initialState

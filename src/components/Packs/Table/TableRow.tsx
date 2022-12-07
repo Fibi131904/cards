@@ -1,6 +1,6 @@
 import React from 'react'
 import s from './TableRow.module.css'
-import { useAppSelector } from '../../redux/redux-store'
+import { useAppSelector } from '../../../redux/redux-store'
 
 type DataCardsProps = {
   name: string
@@ -16,7 +16,7 @@ export const TableRow = (props: DataCardsProps) => {
   return (
     <div>
       <div className={s.table}>
-        <div>showPacksCard</div>
+        <div>{props.name} </div>
         <div>{props.countCard}</div>
         <div>{props.created}</div>
         <div>Raiting </div>

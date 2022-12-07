@@ -82,13 +82,7 @@ export type ActionTypes = ReturnType<typeof setAppStatusAC> | ReturnType<typeof 
 | ReturnType<typeof setStatusTrainingAC>
 | ReturnType<typeof setAlertListAC>
 
-// type AlertTypeInfo = 'error' | 'success' | 'info' | 'warning'
 
-// export type AlertType = {
-//   id: number
-//   type: AlertTypeInfo
-//   title: string
-// }
 type AlertType = 'error' | 'success' | 'info' | 'warning'
 export type AlertContentType = {
     id: number

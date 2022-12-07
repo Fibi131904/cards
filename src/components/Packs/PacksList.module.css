@@ -3,33 +3,16 @@
   border: 1px solid;
   justify-content: space-around;
 }
-
-.search {
-  border: 1px solid;
-  margin: 20px;
+h3{
+  margin: 40px;
 }
 
-.search2 {
-  border: 1px solid red;
-  margin: 20px;
-  padding: 10px;
-}
-
-.search3 {
-  border: 1px solid green;
-  margin: 20px;
-  padding: 10px;
-}
 .superDoubleRange {
   display: flex;
 }
 
 span {
   margin: 5px;
-}
-
-.divValue2 {
-  margin-left: 15px;
 }
 
 .btn {
@@ -40,8 +23,14 @@ span {
   text-decoration: none;
   border-radius: 5px;
   text-align: center;
+  margin-left: 150px;
  }
 
- .superDoubleRange {
+ .header{ 
+  margin: 20px;
   display: flex;
-}
+  justify-content: space-around;
+ }
+  .superDoubleRange  {
+   display: flex;
+   }

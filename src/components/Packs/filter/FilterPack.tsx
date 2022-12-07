@@ -1,6 +1,6 @@
 import ButtonGroup from '@mui/material/ButtonGroup'
 import React, { useState } from 'react'
-import { useAppSelector, useAppDispatch } from '../../redux/redux-store'
+import { useAppSelector, useAppDispatch } from '../../../redux/redux-store'
 import { FilterButton } from './FilterButton'
 
 export const FilterPacks = () => {
